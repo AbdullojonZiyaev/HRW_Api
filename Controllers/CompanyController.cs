@@ -14,17 +14,8 @@ namespace HRM_Project.Controllers
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class CompanyController : ControllerBase
+    public class CompanyController(ICompanyService companyService, IMapper mapper, IUserService userService) : ControllerBase
     {
-        private readonly ICompanyService companyService;
-        private readonly IMapper mapper;
-        private readonly IUserService userService;
-        public CompanyController ( ICompanyService companyService, IMapper mapper, IUserService userService )
-        {
-            this.companyService = companyService;
-            this.mapper = mapper;
-            this.userService = userService;
-        }
         [HttpGet]
         public async Task<IActionResult> Get ( string fullname, int page = 1, int size = 10 )
         {

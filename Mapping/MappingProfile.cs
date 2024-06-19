@@ -35,6 +35,11 @@ namespace AuthKeeper.Mapping
             CreateMap<CityCreateDto, City> ();
             CreateMap<CityUpdateDto, City> ();
             CreateMap<City, CityViewDto> ();
+
+            CreateMap<Department, DepartmentViewDto>()
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname));
+            CreateMap<DepartmentCreateDto, Department>();
+            CreateMap<DepartmentUpdateDto, Department>();
         }
     }
 }

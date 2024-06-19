@@ -14,13 +14,8 @@ namespace HRM_Project.Controllers
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class RoleController : ControllerBase
+    public class RoleController(IRoleService roleService) : ControllerBase
     {
-        readonly IRoleService roleService;
-
-        public RoleController ( IRoleService roleService )
-            => this.roleService = roleService;
-
         [HttpGet]
         [ProducesResponseType (typeof (PagedList<Role, RoleViewDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAsync ( [FromQuery] NameAndPagedParam param )

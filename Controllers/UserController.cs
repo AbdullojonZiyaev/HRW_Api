@@ -14,13 +14,8 @@ namespace HRM_Project.Controllers
     [Route ("api/[controller]")]
     [ApiController]
     [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class UserController : ControllerBase
+    public class UserController(IUserService userService) : ControllerBase
     {
-        readonly IUserService userService;
-
-        public UserController ( IUserService userService )
-            => this.userService = userService;
-
         [HttpGet]
         [ProducesResponseType (typeof (PagedList<User, UserViewDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAsync ( [FromQuery] NameAndPagedParam param )

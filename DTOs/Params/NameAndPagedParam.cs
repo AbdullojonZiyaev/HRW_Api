@@ -2,6 +2,6 @@
 {
     public class NameAndPagedParam:PagedParam
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
     }
 }

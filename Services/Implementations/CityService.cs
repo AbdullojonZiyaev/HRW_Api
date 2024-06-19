@@ -8,15 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class CityService : ICityService
+    public class CityService(ApplicationDbContext context, IMapper mapper) : ICityService
     {
-        private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
-        public CityService ( ApplicationDbContext context, IMapper mapper ) 
-        {
-            this.context = context;
-            this.mapper = mapper;
-        }
         public IQueryable<City> Search ( string name = "", int page = 1, int size = 10 )
         {
             return context.Cities.Where (x => !x.IsDeleted && (string.IsNullOrEmpty (name) || x.Name.Contains (name.ToLower ())))

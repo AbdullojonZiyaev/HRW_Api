@@ -9,17 +9,8 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace HRM_Project.Services
 {
-    public class CompanyService : ICompanyService
+    public class CompanyService(ApplicationDbContext context, IMapper mapper) : ICompanyService
     {
-
-        private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
-        public CompanyService ( ApplicationDbContext context, IMapper mapper )
-        {
-            this.context = context;
-            this.mapper = mapper;
-        }
-
         public IQueryable<Company> Search ( string fullname = "", int page = 1, int size = 10 )
         {
             return context.Companies.Include (c => c.City).Where (x => !x.IsDeleted && (string.IsNullOrEmpty (fullname) || x.Fullname.Contains (fullname.ToLower ())))

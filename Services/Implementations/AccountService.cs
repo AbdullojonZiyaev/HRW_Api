@@ -14,29 +14,16 @@ using System.Security.Claims;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class AccountService : IAccountService
+    public class AccountService(
+        IOptions<JwtOptions> options,
+        IPasswordHasher<BaseUser> passwordHasher,
+        ApplicationDbContext context,
+        IMapper mapper,
+        IServiceProvider serviceProvider
+            ) : IAccountService
     {
-        readonly JwtOptions options;
-        readonly IPasswordHasher<BaseUser> passwordHasher;
-        readonly ApplicationDbContext context;
-        readonly IMapper mapper;
-        readonly IServiceProvider serviceProvider;
+        readonly JwtOptions options = options.Value;
 
-
-        public AccountService(
-            IOptions<JwtOptions> options,
-            IPasswordHasher<BaseUser> passwordHasher,
-            ApplicationDbContext context,
-            IMapper mapper,
-            IServiceProvider serviceProvider
-            )
-        {
-            this.options = options.Value;
-            this.passwordHasher = passwordHasher;
-            this.context = context;
-            this.mapper = mapper;
-            this.serviceProvider = serviceProvider;
-        }
         public JsonWebTokenDto SignIn(SignInDto signInObj)
         {
             var user = context.Users
@@ -137,7 +124,7 @@ namespace HRM_Project.Services.Implementations
         }
         public string Username()
         {
-            string? username;
+            string username;
             using (var scope = serviceProvider.CreateScope())
             {
                 var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();

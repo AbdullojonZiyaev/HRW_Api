@@ -5,22 +5,12 @@ using Microsoft.Extensions.Primitives;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class TokenManager:ITokenManager
+    public class TokenManager(
+            IDistributedCache cache,
+            IHttpContextAccessor httpContextAccessor,
+            IOptions<JwtOptions> jwtOptions
+            ) : ITokenManager
     {
-        readonly IDistributedCache cache;
-        readonly IHttpContextAccessor httpContextAccessor;
-        readonly IOptions<JwtOptions> jwtOptions;
-
-        public TokenManager(
-                IDistributedCache cache,
-                IHttpContextAccessor httpContextAccessor,
-                IOptions<JwtOptions> jwtOptions
-            )
-        {
-            this.cache = cache;
-            this.httpContextAccessor = httpContextAccessor;
-            this.jwtOptions = jwtOptions;
-        }
         public async Task<bool> IsCurrentActiveToken()
             => await IsActiveAsync(GetCurrentAsync());
 

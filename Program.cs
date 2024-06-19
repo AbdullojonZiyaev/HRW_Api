@@ -11,41 +11,42 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // Add this for MySQL
 using System.Text;
 
-var builder = WebApplication.CreateBuilder (args);
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 string MyAllowSpecificOrigins = "MyAllowSpecificOrigins";
-builder.Services.AddCors (options =>
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy (name: MyAllowSpecificOrigins,
+    options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
-                          builder.AllowAnyHeader ()
-                    .AllowAnyMethod ()
-                    .WithOrigins ( )
-                 .AllowCredentials ();
+                          builder.AllowAnyHeader()
+                                 .AllowAnyMethod()
+                                 .WithOrigins()
+                                 .AllowCredentials();
                       });
 });
-builder.Services.AddControllers ()
-     .ConfigureApiBehaviorOptions (options =>
-     {
-         options.InvalidModelStateResponseFactory = context =>
-         {
-             var errorResponse = context.ModelState
-                 .Where (x => x.Value.Errors.Any ())
-                 .SelectMany (x => x.Value.Errors.Select (e => new ValidationErrorDto (x.Key, e.ErrorMessage)))
-                 .ToList ();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errorResponse = context.ModelState
+                .Where(x => x.Value.Errors.Any())
+                .SelectMany(x => x.Value.Errors.Select(e => new ValidationErrorDto(x.Key, e.ErrorMessage)))
+                .ToList();
 
-             return new BadRequestObjectResult (errorResponse);
-         };
-     });
-builder.Services.AddEndpointsApiExplorer ();
-builder.Services.AddSwaggerGen (c =>
+            return new BadRequestObjectResult(errorResponse);
+        };
+    });
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc ("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-    c.AddSecurityDefinition ("Bearer", new OpenApiSecurityScheme
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
         Name = "Authorization",
@@ -54,63 +55,66 @@ builder.Services.AddSwaggerGen (c =>
         Scheme = "Bearer"
     });
 
-    c.AddSecurityRequirement (new OpenApiSecurityRequirement ()
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                                 {
+                                    {
+                                        new OpenApiSecurityScheme
                                         {
-                                            new OpenApiSecurityScheme
+                                            Reference = new OpenApiReference
                                             {
-                                                Reference = new OpenApiReference
-                                                {
-                                                    Type = ReferenceType.SecurityScheme,
-                                                    Id = "Bearer"
-                                                },
-                                                Scheme = "oauth2",
-                                                Name = "Bearer",
-                                                In = ParameterLocation.Header,
-
+                                                Type = ReferenceType.SecurityScheme,
+                                                Id = "Bearer"
                                             },
-                                            new List<string>()
-                                        }
+                                            Scheme = "oauth2",
+                                            Name = "Bearer",
+                                            In = ParameterLocation.Header,
+                                        },
+                                        new List<string>()
+                                    }
                                 });
 });
-builder.Services.AddDbContext<ApplicationDbContext> (options => options.UseSqlServer (builder.Configuration.GetConnectionString ("MsSQL")));
+
+//Connecting to MySql server
+var connectionString = builder.Configuration.GetConnectionString("MySQL");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 //builder.Services.AddMemoryCache();
-builder.Services.AddDistributedMemoryCache ();
+builder.Services.AddDistributedMemoryCache();
 
 //SPA
-builder.Services.AddSpaStaticFiles (configuration =>
+builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "ClientApp";
 });
 
 //Implementation
-builder.Services.AddSingleton<IPasswordHasher<BaseUser>, PasswordHasher<BaseUser>> ();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor> ();
-builder.Services.AddTransient<TokenManagerMiddleware> ();
-builder.Services.AddSingleton<ILogService, LogService> ();
-builder.Services.AddTransient<ITokenManager, TokenManager> ();
-builder.Services.AddTransient<IAccountService, AccountService> ();
-builder.Services.AddTransient<IUserService, UserService> ();
-builder.Services.AddTransient<IRoleService, RoleService> ();
-builder.Services.AddTransient<ICityService, CityService> ();
-builder.Services.AddTransient<ICompanyService, CompanyService> ();
-builder.Services.AddTransient<IDemoService, DemoService> ();
-
+builder.Services.AddSingleton<IPasswordHasher<BaseUser>, PasswordHasher<BaseUser>>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<TokenManagerMiddleware>();
+builder.Services.AddSingleton<ILogService, LogService>();
+builder.Services.AddTransient<ITokenManager, TokenManager>();
+builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+builder.Services.AddTransient<ICityService, CityService>();
+builder.Services.AddTransient<ICompanyService, CompanyService>();
+builder.Services.AddTransient<IDemoService, DemoService>();
+builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 
 //Service for AutoMapping
-builder.Services.AddAutoMapper (typeof (MappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // JWT Bearer
-var jwtSection = builder.Configuration.GetSection ("jwt");
-var jwtOptions = new JwtOptions ();
-jwtSection.Bind (jwtOptions);
-builder.Services.AddAuthentication (options =>
+var jwtSection = builder.Configuration.GetSection("jwt");
+var jwtOptions = new JwtOptions();
+jwtSection.Bind(jwtOptions);
+builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-    .AddJwtBearer (options =>
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -119,42 +123,42 @@ builder.Services.AddAuthentication (options =>
             ValidateIssuerSigningKey = true,
             ValidateLifetime = true,
             ValidIssuer = jwtOptions.Issuer,
-            IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes (jwtOptions.SecretKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
         };
     });
 
-builder.Services.Configure<JwtOptions> (jwtSection);
+builder.Services.Configure<JwtOptions>(jwtSection);
 
-var app = builder.Build ();
-app.UseCors (MyAllowSpecificOrigins);
+var app = builder.Build();
+app.UseCors(MyAllowSpecificOrigins);
 
-if (app.Environment.IsDevelopment ())
+if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger ();
-    app.UseSwaggerUI ();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-app.UseMiddleware<ApiLogHandlerMiddleware> ();
-app.UseMiddleware<ErrorHandlerMiddleware> ();
-app.UseMiddleware<TokenManagerMiddleware> ();
+app.UseMiddleware<ApiLogHandlerMiddleware>();
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<TokenManagerMiddleware>();
 
-app.UseAuthentication ();
-app.UseAuthorization ();
+app.UseAuthentication();
+app.UseAuthorization();
 
-app.MapControllers ();
-app.UseSpaStaticFiles ();
+app.MapControllers();
+app.UseSpaStaticFiles();
 
 // send post requests with incorrect addresses to SPA
-app.Use (async ( context, next ) =>
+app.Use(async (context, next) =>
 {
     if (context.Request.Method != HttpMethods.Get)
         context.Request.Method = HttpMethods.Get;
-    await next.Invoke ();
+    await next.Invoke();
 });
 
-app.UseSpa (spa =>
+app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "ClientApp";
 });
 
-app.Run ();
+app.Run();

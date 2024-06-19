@@ -11,18 +11,8 @@ namespace HRM_Project.Controllers
     [Route ("api/account")]
     [ApiController]
     [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class AccountController : ControllerBase
+    public class AccountController(IAccountService accountService, IDemoService demoService) : ControllerBase
     {
-        readonly IAccountService accountService;
-        readonly ITokenManager tokenManager;
-        readonly IDemoService demoService;
-
-        public AccountController ( IAccountService accountService, ITokenManager tokenManager, IDemoService demoService )
-        {
-            this.accountService = accountService;
-            this.tokenManager = tokenManager;
-            this.demoService = demoService;
-        }
         [AllowAnonymous]
         [HttpPost ("sign-in")]
         [ProducesResponseType (typeof (JsonWebTokenDto), StatusCodes.Status200OK)]

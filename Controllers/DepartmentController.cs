@@ -1,0 +1,58 @@
+﻿using AutoMapper;
+using HRM_Project.DTOs.Request;
+using HRM_Project.DTOs.Response;
+using HRM_Project.Services;
+using HRM_Project.Services.Implementations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace HRM_Project.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class DepartmentController(IDepartmentService departmentService, IMapper mapper, IUserService userService) : ControllerBase
+    {
+        [HttpGet]
+        public async Task<IActionResult> Get(string fullname, int page = 1, int size = 10)
+        {
+            var totalCount = await departmentService.Search(fullname, 1, int.MaxValue).CountAsync();
+            var result = mapper.Map<List<DepartmentViewDto>>(await departmentService.Search(fullname, page, size).ToListAsync());
+            var pageData = new
+            {
+                TotalCount = totalCount,
+                Page = page,
+                Size = size,
+                Items = result
+            };
+            return Ok(pageData);
+        }
+
+        [HttpGet("AllDepartments")]
+        public async Task<ActionResult> GetAllDepartments() => Ok(await departmentService.GetDepartments());
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id) => Ok(await departmentService.GetByIdAsync(id));
+
+        [HttpPost("AddDepartment")]
+        public async Task<ActionResult> Post([FromBody] DepartmentCreateDto entityDto) => Ok(await departmentService.AddAsync(entityDto));
+
+        [HttpPut("UpdateDepartment")]
+        public async Task<IActionResult> Put([FromBody] DepartmentUpdateDto entityDto)
+        {
+            var user = await userService.GetByUsernameAsync(User.Identity.Name);
+            return Ok(await departmentService.UpdateAsync(entityDto, user.Id));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await userService.GetByUsernameAsync(User.Identity.Name);
+            return Ok(await departmentService.DeleteAsync(id, user.Id));
+        }
+    }
+}

@@ -12,17 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class RoleService : IRoleService
+    public class RoleService(IMapper mapper, ApplicationDbContext context) : IRoleService
     {
-        readonly IMapper mapper; 
-        readonly ApplicationDbContext context;
-
-        public RoleService(IMapper mapper, ApplicationDbContext context )
-        {
-            this.mapper = mapper;
-            this.context = context;
-        }
-
         public async Task<PagedList<Role, RoleViewDto>> SearchAsync(NameAndPagedParam param)
         {
             var query = context.Roles

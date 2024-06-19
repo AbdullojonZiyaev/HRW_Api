@@ -4,28 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class DemoService : IDemoService
+    public class DemoService(
+       ApplicationDbContext context,
+        IUserService userService,
+        IRoleService roleService,
+        ICityService cityService,
+        ICompanyService companyService
+            ) : IDemoService
     {
-        readonly ApplicationDbContext context;
-        readonly IUserService userService;
-        readonly IRoleService roleService;
-        readonly ICityService cityService;
-        readonly ICompanyService companyService;
-
-        public DemoService(
-           ApplicationDbContext context,
-            IUserService userService,
-            IRoleService roleService,
-            ICityService cityService,
-            ICompanyService companyService
-            )
-        {
-            this.context = context;
-            this.userService = userService;
-            this.roleService = roleService;
-            this.cityService = cityService;
-            this.companyService = companyService;
-        }
         public async Task CreateDemoAsync()
         {
             if (await context.Users.AnyAsync())

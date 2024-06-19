@@ -11,17 +11,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HRM_Project.Services.Implementations
 {
-    public class UserService : IUserService
+    public class UserService(ApplicationDbContext context, IMapper mapper, IAccountService accountService) : IUserService
     {
-        readonly ApplicationDbContext context;
-        readonly IMapper mapper;
-        readonly IAccountService accountService;
-        public UserService( ApplicationDbContext context, IMapper mapper, IAccountService accountService)
-        {
-            this.context = context;
-            this.mapper = mapper;
-            this.accountService = accountService;
-        }
         public async Task<PagedList<User, UserViewDto>> SearchAsync(NameAndPagedParam param)
         {
             var query = context.Users

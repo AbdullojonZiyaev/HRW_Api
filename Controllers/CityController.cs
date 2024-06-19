@@ -10,16 +10,8 @@ namespace HRM_Project.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class CityController(ICityService cityService, IMapper mapper) : ControllerBase
     {
-        private readonly ICityService cityService;
-        private readonly IMapper mapper;
-
-        public CityController ( ICityService cityService, IMapper mapper )
-        {
-            this.cityService = cityService;
-            this.mapper = mapper;
-        }
         [HttpGet]
         public async Task<IActionResult> Get ( string name, int page = 1, int size = 10 )
         {
