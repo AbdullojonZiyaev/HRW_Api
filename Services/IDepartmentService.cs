@@ -13,7 +13,7 @@ namespace HRM_Project.Services
         Task<List<DepartmentViewDto>> GetDepartments();
         Task<DepartmentViewDto> GetByIdAsync(int id);
         Task<DepartmentViewDto> AddAsync(DepartmentCreateDto create);
-        Task<DepartmentViewDto> UpdateAsync(DepartmentUpdateDto update, int userId);
-        Task<DepartmentViewDto> DeleteAsync(int id, int userId);
+        Task<DepartmentViewDto> UpdateAsync(DepartmentUpdateDto update);
+        Task<DepartmentViewDto> DeleteAsync(int id);
     }
 }

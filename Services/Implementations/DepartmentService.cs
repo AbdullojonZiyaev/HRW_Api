@@ -69,7 +69,7 @@ namespace HRM_Project.Services
             return mapper.Map<DepartmentViewDto>(department);
         }
 
-        public async Task<DepartmentViewDto> UpdateAsync(DepartmentUpdateDto update, int userId)
+        public async Task<DepartmentViewDto> UpdateAsync(DepartmentUpdateDto update)
         {
             var existingDepartment = await context.Departments
                 .AsNoTracking()
@@ -89,7 +89,7 @@ namespace HRM_Project.Services
             return mapper.Map<DepartmentViewDto>(department);
         }
 
-        public async Task<DepartmentViewDto> DeleteAsync(int id, int userId)
+        public async Task<DepartmentViewDto> DeleteAsync(int id)
         {
             var department = await context.Departments
                 .Include(d => d.Company)

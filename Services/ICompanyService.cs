@@ -10,7 +10,7 @@ namespace HRM_Project.Services
         Task<List<CompanyViewDto>> GetCompanies ();
         Task<CompanyViewDto> GetByIdAsync ( int Id );
         Task<CompanyViewDto> AddAsync ( CompanyCreateDto create );
-        Task<CompanyViewDto> UpdateAsync ( CompanyUpdateDto update, int userId );
-        Task<CompanyViewDto> DeleteAsync ( int Id, int userId );
+        Task<CompanyViewDto> UpdateAsync ( CompanyUpdateDto update );
+        Task<CompanyViewDto> DeleteAsync ( int Id );
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // Add this for MySQL
 using System.Text;
+using HRM_Project.Services.HRM_Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,6 +102,7 @@ builder.Services.AddTransient<ICityService, CityService>();
 builder.Services.AddTransient<ICompanyService, CompanyService>();
 builder.Services.AddTransient<IDemoService, DemoService>();
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
+builder.Services.AddTransient<IDivisionService, DivisionService>();
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -142,7 +144,9 @@ app.UseMiddleware<ApiLogHandlerMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<TokenManagerMiddleware>();
 
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllers();

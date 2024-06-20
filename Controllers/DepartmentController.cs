@@ -14,8 +14,8 @@ namespace HRM_Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class DepartmentController(IDepartmentService departmentService, IMapper mapper, IUserService userService) : ControllerBase
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class DepartmentController(IDepartmentService departmentService, IMapper mapper) : ControllerBase
     {
         [HttpGet]
         public async Task<IActionResult> Get(string fullname, int page = 1, int size = 10)
@@ -42,17 +42,9 @@ namespace HRM_Project.Controllers
         public async Task<ActionResult> Post([FromBody] DepartmentCreateDto entityDto) => Ok(await departmentService.AddAsync(entityDto));
 
         [HttpPut("UpdateDepartment")]
-        public async Task<IActionResult> Put([FromBody] DepartmentUpdateDto entityDto)
-        {
-            var user = await userService.GetByUsernameAsync(User.Identity.Name);
-            return Ok(await departmentService.UpdateAsync(entityDto, user.Id));
-        }
+        public async Task<IActionResult> Put([FromBody] DepartmentUpdateDto entityDto) => Ok(await departmentService.UpdateAsync(entityDto));
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var user = await userService.GetByUsernameAsync(User.Identity.Name);
-            return Ok(await departmentService.DeleteAsync(id, user.Id));
-        }
+        public async Task<IActionResult> Delete(int id) => Ok(await departmentService.DeleteAsync(id));
     }
 }

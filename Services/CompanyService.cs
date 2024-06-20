@@ -45,7 +45,7 @@ namespace HRM_Project.Services
             return mapper.Map<CompanyViewDto> (entity);
         }
 
-        public async Task<CompanyViewDto> UpdateAsync ( CompanyUpdateDto update, int userId )
+        public async Task<CompanyViewDto> UpdateAsync ( CompanyUpdateDto update)
         {
             var res = await context.Companies.AsNoTracking ().FirstOrDefaultAsync (a => !a.IsDeleted && a.Id == update.Id);
             if (res == null) throw new ToException (ToErrors.ENTITY_WITH_THIS_ID_NOT_FOUND_FOR_UPDATE);
@@ -56,7 +56,7 @@ namespace HRM_Project.Services
             await context.Entry (comp).Reference (a => a.City).LoadAsync ();
             return mapper.Map<CompanyViewDto> (comp);
         }
-        public async Task<CompanyViewDto> DeleteAsync ( int Id, int userId )
+        public async Task<CompanyViewDto> DeleteAsync ( int Id)
         {
             var entity = await context.Companies
                  .Include (s => s.City)

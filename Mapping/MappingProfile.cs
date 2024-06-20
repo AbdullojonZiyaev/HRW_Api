@@ -40,6 +40,11 @@ namespace AuthKeeper.Mapping
                 .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname));
             CreateMap<DepartmentCreateDto, Department>();
             CreateMap<DepartmentUpdateDto, Department>();
+
+            CreateMap<Division, DivisionViewDto>()
+           .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname));
+            CreateMap<DivisionCreateDto, Division>();
+            CreateMap<DivisionUpdateDto, Division>();
         }
     }
 }
