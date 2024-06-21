@@ -3,6 +3,7 @@ using AuthKeeper.DTOs.Response;
 using AutoMapper;
 using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
+using HRM_Project.Models;
 using HRM_Project.Models.Common;
 using HRM_Project.Models.Options;
 
@@ -45,6 +46,23 @@ namespace AuthKeeper.Mapping
            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname));
             CreateMap<DivisionCreateDto, Division>();
             CreateMap<DivisionUpdateDto, Division>();
+
+            CreateMap<Employee, EmployeeViewDto>()
+           .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position.Title))
+           .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+           .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname))
+           .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname));
+
+            CreateMap<EmployeeCreateDto, Employee>();
+            CreateMap<EmployeeUpdateDto, Employee>();
+
+            CreateMap<Position, PositionViewDto>()
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+            .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname));
+
+            CreateMap<PositionCreateDto, Position>();
+            CreateMap<PositionUpdateDto, Position>();
         }
     }
 }

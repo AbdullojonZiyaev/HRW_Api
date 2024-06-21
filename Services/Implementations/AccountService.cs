@@ -81,7 +81,7 @@ namespace HRM_Project.Services.Implementations
         }
         public void SignOut()
         {
-            using(var scope = serviceProvider.CreateScope())
+            using (var scope = serviceProvider.CreateScope())
             {
                 var tokenManager = scope.ServiceProvider.GetService<ITokenManager>();
                 var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();

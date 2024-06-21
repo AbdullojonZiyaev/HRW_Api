@@ -2,7 +2,7 @@
 {
     using global::HRM_Project.DTOs.Request;
     using global::HRM_Project.DTOs.Response;
-    using global::HRM_Project.Models.Common;
+    using global::HRM_Project.Models;
     using System.Linq;
     using System.Threading.Tasks;
 

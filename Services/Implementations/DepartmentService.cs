@@ -2,7 +2,7 @@
 using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
 using HRM_Project.Exceptions;
-using HRM_Project.Models.Common;
+using HRM_Project.Models;
 using HRM_Project.Models.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

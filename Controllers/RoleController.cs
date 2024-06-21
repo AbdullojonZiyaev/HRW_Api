@@ -13,7 +13,7 @@ namespace HRM_Project.Controllers
 {
     [Route ("api/[controller]")]
     [ApiController]
-    [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RoleController(IRoleService roleService) : ControllerBase
     {
         [HttpGet]

@@ -10,7 +10,7 @@ namespace HRM_Project.Controllers
 {
     [Route ("api/account")]
     [ApiController]
-    [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AccountController(IAccountService accountService, IDemoService demoService) : ControllerBase
     {
         [AllowAnonymous]

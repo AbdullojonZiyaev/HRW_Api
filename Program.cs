@@ -103,11 +103,15 @@ builder.Services.AddTransient<ICompanyService, CompanyService>();
 builder.Services.AddTransient<IDemoService, DemoService>();
 builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 builder.Services.AddTransient<IDivisionService, DivisionService>();
+builder.Services.AddTransient<IPositionService, PositionService>();
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-// JWT Bearer
+//Comment out authentification if needed
+
+/* // JWT Bearer
 var jwtSection = builder.Configuration.GetSection("jwt");
 var jwtOptions = new JwtOptions();
 jwtSection.Bind(jwtOptions);
@@ -129,7 +133,7 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.Configure<JwtOptions>(jwtSection);
+builder.Services.Configure<JwtOptions>(jwtSection);*/ //Jwt
 
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
@@ -144,10 +148,9 @@ app.UseMiddleware<ApiLogHandlerMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<TokenManagerMiddleware>();
 
-
-app.UseAuthentication();
-
-app.UseAuthorization();
+//authentification
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapControllers();
 app.UseSpaStaticFiles();

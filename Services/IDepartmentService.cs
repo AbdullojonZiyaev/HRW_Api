@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
-using HRM_Project.Models.Common;
+using HRM_Project.Models;
 
 namespace HRM_Project.Services
 {
