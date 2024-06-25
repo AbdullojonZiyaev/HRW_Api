@@ -6,6 +6,7 @@ using HRM_Project.DTOs.Response;
 using HRM_Project.Models;
 using HRM_Project.Models.Common;
 using HRM_Project.Models.Options;
+using HRM_Project.Models.Types;
 
 
 namespace AuthKeeper.Mapping
@@ -52,7 +53,6 @@ namespace AuthKeeper.Mapping
            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
            .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname))
            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname));
-
             CreateMap<EmployeeCreateDto, Employee>();
             CreateMap<EmployeeUpdateDto, Employee>();
 
@@ -60,9 +60,20 @@ namespace AuthKeeper.Mapping
             .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
             .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname));
-
             CreateMap<PositionCreateDto, Position>();
             CreateMap<PositionUpdateDto, Position>();
+
+            CreateMap<OrderCreateDto, Order>();
+            CreateMap<Order, OrderViewDto>()
+                .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => $"{src.Employee.FirstName} {src.Employee.LastName}"))
+                .ForMember(dest => dest.OrderTypeName, opt => opt.MapFrom(src => src.OrderType.Name))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username))
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+                .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+                .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division != null ? src.Division.Fullname : string.Empty));
+
+            CreateMap<OrderType, OrderTypeViewDto>();
+            CreateMap<OrderTypeCreateDto, OrderType>();
         }
     }
 }

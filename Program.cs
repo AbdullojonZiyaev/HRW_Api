@@ -105,6 +105,8 @@ builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 builder.Services.AddTransient<IDivisionService, DivisionService>();
 builder.Services.AddTransient<IPositionService, PositionService>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+builder.Services.AddTransient<IOrderTypeService, OrderTypeService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));
