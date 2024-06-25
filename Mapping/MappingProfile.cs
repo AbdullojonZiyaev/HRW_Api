@@ -74,6 +74,10 @@ namespace AuthKeeper.Mapping
 
             CreateMap<OrderType, OrderTypeViewDto>();
             CreateMap<OrderTypeCreateDto, OrderType>();
+
+            CreateMap<News, NewsViewDto>();
+            CreateMap<NewsCreateDto, News>();
+            CreateMap<NewsUpdateDto, News>();
         }
     }
 }
