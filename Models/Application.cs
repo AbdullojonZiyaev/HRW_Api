@@ -12,9 +12,10 @@ namespace HRM_Project.Models
         public virtual Department Department { get; set; }
         public int? DivisionId { get; set; }
         public virtual Division Division { get; set; }
+        public virtual Position Position { get; set; }
         public int PositionId { get; set; }
         public int AppicationTypeId { get; set; }
-        public ApplicationType AppicationType { get; set; }
+        public ApplicationType ApplicationType { get; set; }
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
         public string Description { get; set; } = string.Empty;

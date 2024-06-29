@@ -108,6 +108,10 @@ builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IOrderTypeService, OrderTypeService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddTransient<INewsService, NewsService>();
+builder.Services.AddTransient<IActService, ActService>();
+builder.Services.AddTransient<IActTypeService, ActTypeService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddTransient<IApplicationTypeService, ApplicationTypeService>();
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));

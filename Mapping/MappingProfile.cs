@@ -78,6 +78,29 @@ namespace AuthKeeper.Mapping
             CreateMap<News, NewsViewDto>();
             CreateMap<NewsCreateDto, News>();
             CreateMap<NewsUpdateDto, News>();
+
+            CreateMap<Act, ActViewDto>();
+            CreateMap<ActCreateDto, Act>();
+            CreateMap<ActUpdateDto, Act>();
+
+            CreateMap<ActType, ActTypeViewDto>();
+            CreateMap<ActTypeCreateDto, ActType>();
+            CreateMap<ActTypeUpdateDto, ActType>();
+
+            CreateMap<Application, ApplicationViewDto>()
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+            .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname))
+            .ForMember(dest => dest.PositionTitle, opt => opt.MapFrom(src => src.Position.Title))
+            .ForMember(dest => dest.ApplicationTypeName, opt => opt.MapFrom(src => src.ApplicationType.Name))
+            .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.FirstName + " " + src.Employee.LastName))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username));
+            CreateMap<ApplicationCreateDto, Application>();
+            CreateMap<ApplicationUpdateDto, Application>();
+
+            CreateMap <ApplicationType, ApplicationTypeViewDto>();
+            CreateMap<ApplicationTypeCreateDto, ApplicationType>();
+            CreateMap<ApplicationTypeUpdateDto, ApplicationType>();
         }
     }
 }
