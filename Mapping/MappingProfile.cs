@@ -101,6 +101,14 @@ namespace AuthKeeper.Mapping
             CreateMap <ApplicationType, ApplicationTypeViewDto>();
             CreateMap<ApplicationTypeCreateDto, ApplicationType>();
             CreateMap<ApplicationTypeUpdateDto, ApplicationType>();
+
+            CreateMap<Vacancy, VacancyViewDto>()
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+            .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname));
+
+            CreateMap<VacancyCreateDto, Vacancy>();
+            CreateMap<VacancyUpdateDto, Vacancy>();
         }
     }
 }
