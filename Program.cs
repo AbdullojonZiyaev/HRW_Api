@@ -113,6 +113,8 @@ builder.Services.AddTransient<IActTypeService, ActTypeService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddTransient<IApplicationTypeService, ApplicationTypeService>();
 builder.Services.AddScoped<IVacancyService, VacancyService>();
+builder.Services.AddTransient<IReferenceService, ReferenceService>();
+builder.Services.AddTransient<IReferenceTypeService, ReferenceTypeService>();   
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));

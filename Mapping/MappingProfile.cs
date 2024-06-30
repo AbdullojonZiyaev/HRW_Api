@@ -106,9 +106,22 @@ namespace AuthKeeper.Mapping
             .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
             .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
             .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname));
-
             CreateMap<VacancyCreateDto, Vacancy>();
             CreateMap<VacancyUpdateDto, Vacancy>();
+
+            CreateMap<Reference, ReferenceViewDto>()
+            .ForMember(dest => dest.ReferenceTypeName, opt => opt.MapFrom(src => src.ReferenceType.Name))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username))
+            .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+            .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+            .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname))
+            .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.FirstName));
+            CreateMap<ReferenceCreateDto, Reference>();
+            CreateMap<ReferenceUpdateDto, Reference>();
+
+            CreateMap<ReferenceType, ReferenceTypeViewDto>();
+            CreateMap<ReferenceTypeCreateDto, ReferenceType>();
+            CreateMap<ReferenceTypeUpdateDto, ReferenceType>();
         }
     }
 }
