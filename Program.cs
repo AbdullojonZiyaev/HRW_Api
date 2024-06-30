@@ -115,6 +115,8 @@ builder.Services.AddTransient<IApplicationTypeService, ApplicationTypeService>()
 builder.Services.AddScoped<IVacancyService, VacancyService>();
 builder.Services.AddTransient<IReferenceService, ReferenceService>();
 builder.Services.AddTransient<IReferenceTypeService, ReferenceTypeService>();   
+builder.Services.AddTransient<ITimeSheetService, TimeSheetService>();
+builder.Services.AddTransient<ITimeSheetTypeService, TimeSheetTypeService>();
 
 //Service for AutoMapping
 builder.Services.AddAutoMapper(typeof(MappingProfile));

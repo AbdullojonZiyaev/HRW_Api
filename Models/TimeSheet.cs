@@ -15,7 +15,7 @@ namespace HRM_Project.Models
         public virtual Division Division { get; set; }
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; } 
-        public TimeSpan HoursWorked { get; set; } 
+        public string HoursWorked { get; set; } 
         public int TimeSheetTypeId { get; set; } 
         public virtual TimeSheetType TimeSheetType { get; set; }
         public DateTime DateFrom { get; set; }

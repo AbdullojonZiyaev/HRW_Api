@@ -122,6 +122,21 @@ namespace AuthKeeper.Mapping
             CreateMap<ReferenceType, ReferenceTypeViewDto>();
             CreateMap<ReferenceTypeCreateDto, ReferenceType>();
             CreateMap<ReferenceTypeUpdateDto, ReferenceType>();
+
+            CreateMap<TimeSheet, TimeSheetViewDto>()
+           .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+           .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+           .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname))
+           .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.FirstName))
+           .ForMember(dest => dest.TimeSheetTypeName, opt => opt.MapFrom(src => src.TimeSheetType.Name))
+           .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Username));
+            CreateMap<TimeSheetCreateDto, TimeSheet>();
+            CreateMap<TimeSheetUpdateDto, TimeSheet>();
+
+            CreateMap<TimeSheetType, TimeSheetTypeViewDto>();
+            CreateMap<TimeSheetTypeCreateDto, TimeSheetType>();
+            CreateMap<TimeSheetTypeUpdateDto, TimeSheetType>();
+
         }
     }
 }
