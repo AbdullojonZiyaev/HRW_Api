@@ -1,6 +1,8 @@
 ﻿using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
+using HRM_Project.Exceptions;
 using HRM_Project.Services;
+using HRM_Project.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +12,7 @@ namespace HRM_Project.Controllers
 {
     [Route ("api/account")]
     [ApiController]
-    //[Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AccountController(IAccountService accountService, IDemoService demoService) : ControllerBase
     {
         [AllowAnonymous]
@@ -34,5 +36,20 @@ namespace HRM_Project.Controllers
         [ProducesResponseType (StatusCodes.Status200OK)]
         public async Task CreateDemoAsync ()
             => await demoService.CreateDemoAsync ();
+        
+        [AllowAnonymous]
+        [HttpGet("username")]
+        public IActionResult GetUsername()
+        {
+            try
+            {
+                var username = accountService.Username();
+                return Ok(username);
+            }
+            catch (ToException ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+        }
     }
 }

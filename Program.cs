@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
                       {
                           builder.AllowAnyHeader()
                                  .AllowAnyMethod()
-                                 .WithOrigins()
+                                 .WithOrigins("http://localhost:4200")
                                  .AllowCredentials();
                       });
 });
@@ -83,12 +83,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //builder.Services.AddMemoryCache();
 builder.Services.AddDistributedMemoryCache();
 
-//SPA
-builder.Services.AddSpaStaticFiles(configuration =>
-{
-    configuration.RootPath = "ClientApp";
-});
-
 //Implementation
 builder.Services.AddSingleton<IPasswordHasher<BaseUser>, PasswordHasher<BaseUser>>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -123,7 +117,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 //Comment out authentification if needed
 
-/* // JWT Bearer
+ // JWT Bearer
 var jwtSection = builder.Configuration.GetSection("jwt");
 var jwtOptions = new JwtOptions();
 jwtSection.Bind(jwtOptions);
@@ -145,7 +139,13 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.Configure<JwtOptions>(jwtSection);*/ //Jwt
+builder.Services.Configure<JwtOptions>(jwtSection); //Jwt
+
+// SPA static files
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "HRM_Web/dist"; // Ensure this path is correct and points to the Angular build output
+});
 
 var app = builder.Build();
 app.UseCors(MyAllowSpecificOrigins);
@@ -161,10 +161,11 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<TokenManagerMiddleware>();
 
 //authentification
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
+
 app.UseSpaStaticFiles();
 
 // send post requests with incorrect addresses to SPA
@@ -177,7 +178,7 @@ app.Use(async (context, next) =>
 
 app.UseSpa(spa =>
 {
-    spa.Options.SourcePath = "ClientApp";
+    spa.Options.SourcePath = "HRM_Web/dist"; // Point this to your Angular project directory        
 });
 
 app.Run();

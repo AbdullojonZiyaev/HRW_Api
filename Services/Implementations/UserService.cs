@@ -15,17 +15,23 @@ namespace HRM_Project.Services.Implementations
     {
         public async Task<PagedList<User, UserViewDto>> SearchAsync(NameAndPagedParam param)
         {
+            Console.WriteLine($"SearchAsync called with Name: {param.Name}, Page: {param.Page}, Size: {param.Size}");
+
             var query = context.Users
                 .Include(x => x.Role)
+                .Include(x => x.Company)  // Include the Company entity
                 .Where(x => !x.IsDeleted &&
-                (string.IsNullOrWhiteSpace(param.Name) || x.FirstName.Contains(param.Name)))
+                            (string.IsNullOrWhiteSpace(param.Name) || x.FirstName.Contains(param.Name)))
                 .OrderBy(x => x.Id).AsQueryable();
 
             var count = await query.CountAsync();
+
             var users = await query.Skip((param.Page - 1) * param.Size).Take(param.Size).ToListAsync();
 
             return new PagedList<User, UserViewDto>(users, count, param.Page, param.Size, mapper);
         }
+
+
         public async Task<UserViewDto> AddAsync(UserCreateDto create)
         {
             if (await context.Users.AnyAsync(u => !u.IsDeleted && u.Username == create.Username))

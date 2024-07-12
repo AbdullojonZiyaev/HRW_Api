@@ -17,5 +17,6 @@ namespace HRM_Project.DTOs.Response
         public string Position { get; set; }
         public int? CompanyId { get; set; }
         public string CompanyName { get; set; }
+        public bool isActived {  get; set; }
     }
 }

@@ -95,7 +95,7 @@ namespace HRM_Project.Services.Implementations
         {
             var expires = DateTime.UtcNow.AddMinutes(options.ExpiryMinutes);
             var exp = (long)new TimeSpan(expires.Ticks - new DateTime(1970, 1, 1).Ticks).TotalSeconds;
-
+                
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.SecretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var userClaims = new[]
@@ -124,14 +124,31 @@ namespace HRM_Project.Services.Implementations
         }
         public string Username()
         {
-            string username;
             using (var scope = serviceProvider.CreateScope())
             {
                 var httpContextAccessor = scope.ServiceProvider.GetService<IHttpContextAccessor>();
-                username = httpContextAccessor.HttpContext.User.Identity.Name;
+
+                if (httpContextAccessor == null || httpContextAccessor.HttpContext == null)
+                {
+                    throw new ToException(ToErrors.USER_NOT_FOUND);
+                }
+
+                var user = httpContextAccessor.HttpContext.User;
+                if (user?.Identity?.IsAuthenticated == false)
+                {
+                    throw new ToException(ToErrors.USER_NOT_FOUND);
+                }
+
+                var username = user?.Identity?.Name;
+
+                if (string.IsNullOrEmpty(username))
+                {
+                    throw new ToException(ToErrors.USER_NOT_FOUND);
+                }
+
+                return username;
             }
-            if (username is not null) return username;
-            throw new ToException(ToErrors.USER_NOT_FOUND);
         }
+
     }
 }

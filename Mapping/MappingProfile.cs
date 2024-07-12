@@ -20,7 +20,8 @@ namespace AuthKeeper.Mapping
             CreateMap<RoleCreateDto, Role> ();
 
             CreateMap<User, UserViewDto> ()
-                   .ForMember (x => x.RoleName, y => y.MapFrom (c => c.Role.Name));
+                   .ForMember (x => x.RoleName, y => y.MapFrom (c => c.Role.Name))
+                   .ForMember(x => x.CompanyName, y => y.MapFrom (c => c.Company.Fullname));
 
             CreateMap<User, UserInfoDto> ()
                     .ForMember (x => x.RoleName, y => y.MapFrom (c => c.Role.Name))
