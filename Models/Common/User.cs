@@ -17,5 +17,5 @@ namespace HRM_Project.Models.Common
             public int? CompanyId { get; set; }
             public Company Company { get; set; }
             public bool IsActived { get; set; } = true;
-        }ed
+        }
 }
