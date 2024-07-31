@@ -17,7 +17,8 @@ namespace HRM_Project.Services.Implementations
              .OrderByDescending(x => x.Id)
              .Skip((page - 1) * size)
                  .Take(size)
-                 .AsQueryable();
+                 .AsQueryable()
+                 .OrderBy(x => x.Id);
         }
         public async Task<List<CompanyViewDto>> GetCompanies()
         {

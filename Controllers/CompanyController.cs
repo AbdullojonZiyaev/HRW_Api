@@ -20,7 +20,7 @@ namespace HRM_Project.Controllers
         public async Task<IActionResult> Get ( string fullname, int page = 1, int size = 10 )
         {
             var TotalCount = await companyService.Search (fullname, 1, int.MaxValue).CountAsync ();
-            var result = mapper.Map<List<CompanyViewDto>> (await companyService.Search (fullname, page, size).ToListAsync ());
+            var result = mapper.Map<List<CompanyViewDto>> (await companyService.Search (fullname, page, size).ToListAsync());
             var pageData = new
             {
                 TotalCount,
