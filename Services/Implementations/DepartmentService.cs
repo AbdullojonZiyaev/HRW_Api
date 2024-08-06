@@ -11,8 +11,17 @@ using System.Threading.Tasks;
 
 namespace HRM_Project.Services
 {
-    public class DepartmentService(ApplicationDbContext context, IMapper mapper) : IDepartmentService
+    public class DepartmentService : IDepartmentService
     {
+        private readonly ApplicationDbContext context;
+        private readonly IMapper mapper;
+
+        public DepartmentService(ApplicationDbContext context, IMapper mapper)
+        {
+            this.context = context;
+            this.mapper = mapper;
+        }
+
         public IQueryable<Department> Search(string fullname = "", int page = 1, int size = 10)
         {
             return context.Departments
@@ -109,6 +118,33 @@ namespace HRM_Project.Services
             await context.SaveChangesAsync();
 
             return mapper.Map<DepartmentViewDto>(department);
+        }
+
+        public async Task<List<MinimalDivisionViewDto>> GetMinimalDivisionsByDepartmentIdAsync(int departmentId)
+        {
+            var divisions = await context.Divisions
+                .Where(d => d.DepartmentId == departmentId && !d.IsDeleted)
+                .ToListAsync();
+
+            return mapper.Map<List<MinimalDivisionViewDto>>(divisions);
+        }
+
+        public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDepartmentIdAsync(int departmentId)
+        {
+            var employees = await context.Employees
+                .Where(e => e.DepartmentId == departmentId && !e.IsDeleted)
+                .ToListAsync();
+
+            return mapper.Map<List<MinimalEmployeeViewDto>>(employees);
+        }
+
+        public async Task<List<MinimalVacancyViewDto>> GetMinimalVacanciesByDepartmentIdAsync(int departmentId)
+        {
+            var vacancies = await context.Vacancies
+                .Where(v => v.DepartmentId == departmentId && !v.IsDeleted)
+                .ToListAsync();
+
+            return mapper.Map<List<MinimalVacancyViewDto>>(vacancies);
         }
     }
 }

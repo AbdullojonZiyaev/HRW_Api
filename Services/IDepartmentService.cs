@@ -15,5 +15,9 @@ namespace HRM_Project.Services
         Task<DepartmentViewDto> AddAsync(DepartmentCreateDto create);
         Task<DepartmentViewDto> UpdateAsync(DepartmentUpdateDto update);
         Task<DepartmentViewDto> DeleteAsync(int id);
+
+        Task<List<MinimalDivisionViewDto>> GetMinimalDivisionsByDepartmentIdAsync(int departmentId);
+        Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDepartmentIdAsync(int departmentId);
+        Task<List<MinimalVacancyViewDto>> GetMinimalVacanciesByDepartmentIdAsync(int departmentId);
     }
 }

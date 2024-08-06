@@ -138,6 +138,21 @@ namespace AuthKeeper.Mapping
             CreateMap<TimeSheetTypeCreateDto, TimeSheetType>();
             CreateMap<TimeSheetTypeUpdateDto, TimeSheetType>();
 
+            CreateMap<Division, MinimalDivisionViewDto>()
+           .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+           .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => src.Fullname));
+            // Map other properties if needed
+
+            CreateMap<Employee, MinimalEmployeeViewDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+            // Map other properties if needed
+
+            CreateMap<Vacancy, MinimalVacancyViewDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title));
+            // Map other properties if needed
+
         }
     }
 }

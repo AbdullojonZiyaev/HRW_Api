@@ -46,5 +46,26 @@ namespace HRM_Project.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id) => Ok(await departmentService.DeleteAsync(id));
+
+        [HttpGet("{departmentId}/minimal-divisions")]
+        public async Task<IActionResult> GetMinimalDivisionsByDepartmentId(int departmentId)
+        {
+            var divisions = await departmentService.GetMinimalDivisionsByDepartmentIdAsync(departmentId);
+            return Ok(divisions);
+        }
+
+        [HttpGet("{departmentId}/minimal-employees")]
+        public async Task<IActionResult> GetMinimalEmployeesByDepartmentId(int departmentId)
+        {
+            var employees = await departmentService.GetMinimalEmployeesByDepartmentIdAsync(departmentId);
+            return Ok(employees);
+        }
+
+        [HttpGet("{departmentId}/minimal-vacancies")]
+        public async Task<IActionResult> GetMinimalVacanciesByDepartmentId(int departmentId)
+        {
+            var vacancies = await departmentService.GetMinimalVacanciesByDepartmentIdAsync(departmentId);
+            return Ok(vacancies);
+        }
     }
 }
