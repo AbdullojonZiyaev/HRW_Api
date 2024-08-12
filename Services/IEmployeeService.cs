@@ -28,5 +28,6 @@ namespace HRM_Project.Services
         Task<List<EmployeeViewDto>> GetEmployeesByPosition(int positionId);
 
         Task<List<EmployeeViewDto>> GetEmployeesInReserve();
+        Task<List<MinimalEmployeeViewDto>> GetAllEmployeesMin();
     }
 }

@@ -129,13 +129,14 @@ namespace HRM_Project.Services
             return mapper.Map<List<MinimalDivisionViewDto>>(divisions);
         }
 
-        public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDepartmentIdAsync(int departmentId)
+        public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDepartmentId(int departmentId)
         {
-            var employees = await context.Employees
-                .Where(e => e.DepartmentId == departmentId && !e.IsDeleted)
-                .ToListAsync();
+            var minimalEmployees = await context.Employees
+                 .Where(e => !e.IsDeleted)
+                 .Include(e => e.Position.Title)
+                 .ToListAsync();
 
-            return mapper.Map<List<MinimalEmployeeViewDto>>(employees);
+            return mapper.Map<List<MinimalEmployeeViewDto>>(minimalEmployees);
         }
 
         public async Task<List<MinimalVacancyViewDto>> GetMinimalVacanciesByDepartmentIdAsync(int departmentId)

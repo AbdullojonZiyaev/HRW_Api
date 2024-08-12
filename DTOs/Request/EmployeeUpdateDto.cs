@@ -34,7 +34,7 @@ namespace HRM_Project.DTOs.Request
         public int DepartmentId { get; set; }
         public int? DivisionId { get; set; }
         public int? PositionId { get; set; }
-        public bool IsInReserve { get; set; } = true;
+        public bool IsInReserve { get; set; }
     }
 
 }

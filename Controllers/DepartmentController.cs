@@ -54,12 +54,13 @@ namespace HRM_Project.Controllers
             return Ok(divisions);
         }
 
-        [HttpGet("{departmentId}/minimal-employees")]
-        public async Task<IActionResult> GetMinimalEmployeesByDepartmentId(int departmentId)
+        [HttpGet("MinimalEmployees/{departmentId}")]
+        public async Task<IActionResult> GetMinimalEmployees(int departmentId)
         {
-            var employees = await departmentService.GetMinimalEmployeesByDepartmentIdAsync(departmentId);
+            var employees = await departmentService.GetMinimalEmployeesByDepartmentId(departmentId);
             return Ok(employees);
         }
+
 
         [HttpGet("{departmentId}/minimal-vacancies")]
         public async Task<IActionResult> GetMinimalVacanciesByDepartmentId(int departmentId)

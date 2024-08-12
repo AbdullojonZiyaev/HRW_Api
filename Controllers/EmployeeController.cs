@@ -39,6 +39,9 @@ namespace HRM_Project.Controllers
             [HttpGet("AllEmployees")]
             public async Task<ActionResult> Get() => Ok(await employeeService.GetAllEmployees());
 
+            [HttpGet("AllEmployeesMin")]
+            public async Task<ActionResult> GetMin() => Ok(await employeeService.GetAllEmployeesMin());
+
             [HttpGet("{id}")]
             public async Task<ActionResult> GetById(int id) => Ok(await employeeService.GetByIdAsync(id));
 

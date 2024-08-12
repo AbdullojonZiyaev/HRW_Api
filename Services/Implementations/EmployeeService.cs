@@ -44,6 +44,18 @@
 
             return mapper.Map<List<EmployeeViewDto>>(employees);
         }
+        public async Task<List<MinimalEmployeeViewDto>> GetAllEmployeesMin()
+        {
+            var minimalEmployees = await context.Employees
+                .Where(e => !e.IsDeleted)
+                .Include(e => e.Company)
+                .Include(e => e.Department)
+                .Include(e => e.Position)
+                .Include (e => e.Division)
+                .ToListAsync();
+
+            return mapper.Map<List<MinimalEmployeeViewDto>>(minimalEmployees);
+        }
 
         public async Task<EmployeeViewDto> GetByIdAsync(int id)
         {

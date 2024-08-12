@@ -145,7 +145,16 @@ namespace AuthKeeper.Mapping
 
             CreateMap<Employee, MinimalEmployeeViewDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+                .ForMember(dest => dest.PositionTitle, opt => opt.MapFrom(src => src.Position.Title))
+                .ForMember(dest => dest.PositionId, opt => opt.MapFrom(src => src.PositionId))
+                .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.DepartmentId))
+                .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department.Fullname))
+                .ForMember(dest => dest.CompanyId, opt => opt.MapFrom(src => src.CompanyId))
+                .ForMember(dest => dest.CompanyName, opt => opt.MapFrom(src => src.Company.Fullname))
+                .ForMember(dest => dest.isInReserve, opt => opt.MapFrom(src => src.IsInReserve))
+                .ForMember(dest => dest.divisionId, opt => opt.MapFrom(src => src.DivisionId))
+                .ForMember(dest => dest.DivisionName, opt => opt.MapFrom(src => src.Division.Fullname));
             // Map other properties if needed
 
             CreateMap<Vacancy, MinimalVacancyViewDto>()
