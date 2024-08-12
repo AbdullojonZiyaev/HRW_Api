@@ -132,12 +132,19 @@ namespace HRM_Project.Services
         public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDepartmentId(int departmentId)
         {
             var minimalEmployees = await context.Employees
-                 .Where(e => !e.IsDeleted)
-                 .Include(e => e.Position.Title)
-                 .ToListAsync();
+                .Where(e => !e.IsDeleted && e.DepartmentId == departmentId)
+                .Include(e => e.Position) // Include the Position entity
+                .Select(e => new MinimalEmployeeViewDto
+                {
+                    Id = e.Id,
+                    Fullname = e.FirstName + " " + e.SurName,
+                    PositionTitle = e.Position.Title // Now you can access Title because Position is included
+                })
+                .ToListAsync();
 
-            return mapper.Map<List<MinimalEmployeeViewDto>>(minimalEmployees);
+            return minimalEmployees;
         }
+
 
         public async Task<List<MinimalVacancyViewDto>> GetMinimalVacanciesByDepartmentIdAsync(int departmentId)
         {

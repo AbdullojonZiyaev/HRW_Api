@@ -46,5 +46,8 @@ namespace HRM_Project.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id) => Ok(await divisionService.DeleteAsync(id));
+
+        [HttpGet("MinimalEmployees/{divisionId}")]
+        public async Task<IActionResult> GetMinimalEmployees(int divisionId) => Ok(await divisionService.GetMinimalEmployeesByDivisionId(divisionId));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
+using HRM_Project.Models;
 using HRM_Project.Services;
 using HRM_Project.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -48,25 +49,15 @@ namespace HRM_Project.Controllers
         public async Task<IActionResult> Delete(int id) => Ok(await departmentService.DeleteAsync(id));
 
         [HttpGet("{departmentId}/minimal-divisions")]
-        public async Task<IActionResult> GetMinimalDivisionsByDepartmentId(int departmentId)
-        {
-            var divisions = await departmentService.GetMinimalDivisionsByDepartmentIdAsync(departmentId);
-            return Ok(divisions);
-        }
+        public async Task<IActionResult> GetMinimalDivisionsByDepartmentId(int departmentId) => Ok(await departmentService.GetMinimalDivisionsByDepartmentIdAsync(departmentId));
+        
 
         [HttpGet("MinimalEmployees/{departmentId}")]
-        public async Task<IActionResult> GetMinimalEmployees(int departmentId)
-        {
-            var employees = await departmentService.GetMinimalEmployeesByDepartmentId(departmentId);
-            return Ok(employees);
-        }
+        public async Task<IActionResult> GetMinimalEmployees(int departmentId) => Ok(await departmentService.GetMinimalEmployeesByDepartmentId(departmentId));
+       
 
 
         [HttpGet("{departmentId}/minimal-vacancies")]
-        public async Task<IActionResult> GetMinimalVacanciesByDepartmentId(int departmentId)
-        {
-            var vacancies = await departmentService.GetMinimalVacanciesByDepartmentIdAsync(departmentId);
-            return Ok(vacancies);
-        }
+        public async Task<IActionResult> GetMinimalVacanciesByDepartmentId(int departmentId) => Ok(await departmentService.GetMinimalVacanciesByDepartmentIdAsync(departmentId));
     }
 }

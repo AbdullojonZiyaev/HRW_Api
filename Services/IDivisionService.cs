@@ -13,6 +13,7 @@
             IQueryable<Division> Search(string fullname = "", int page = 1, int size = 10);
             Task<List<DivisionViewDto>> GetDivisions();
             Task<DivisionViewDto> GetByIdAsync(int Id);
+            Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDivisionId(int divisionId);
             Task<DivisionViewDto> AddAsync(DivisionCreateDto create);
             Task<DivisionViewDto> UpdateAsync(DivisionUpdateDto update);
             Task<DivisionViewDto> DeleteAsync(int Id);

@@ -85,6 +85,21 @@ namespace HRM_Project.Services.Implementations
             await context.SaveChangesAsync();
             return mapper.Map<DivisionViewDto>(entity);
         }
+        public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByDivisionId(int divisionId)
+        {
+            var minimalEmployees = await context.Employees
+                .Where(e => !e.IsDeleted && e.DivisionId == divisionId)
+                .Include(e => e.Position) // Include the Position entity
+                .Select(e => new MinimalEmployeeViewDto
+                {
+                    Id = e.Id,
+                    Fullname = e.FirstName + " " + e.SurName,
+                    PositionTitle = e.Position.Title // Now you can access Title because Position is included
+                })
+                .ToListAsync();
+
+            return minimalEmployees;
+        }
 
     }
 }
