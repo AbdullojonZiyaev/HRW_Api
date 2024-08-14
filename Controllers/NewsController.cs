@@ -20,7 +20,7 @@ namespace HRM_Project.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] NewsCreateDto createDto) => Ok(await newsService.AddAsync(createDto));
 
-        [HttpPut]
+        [HttpPut("UpdateNews")]
         public async Task<IActionResult> Update([FromBody] NewsUpdateDto updateDto) => Ok(await newsService.UpdateAsync(updateDto));
 
         [HttpDelete("{id}")]
