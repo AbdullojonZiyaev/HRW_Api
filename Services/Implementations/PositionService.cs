@@ -102,6 +102,21 @@
             await context.SaveChangesAsync();
             return mapper.Map<PositionViewDto>(entity);
         }
+        public async Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByPositionId(int positionId)
+        {
+            var minimalEmployees = await context.Employees
+                .Where(e => !e.IsDeleted && e.PositionId == positionId)
+                .Include(e => e.Position) // Include the Position entity
+                .Select(e => new MinimalEmployeeViewDto
+                {
+                    Id = e.Id,
+                    Fullname = e.FirstName + " " + e.SurName,
+                    PositionTitle = e.Position.Title // Now you can access Title because Position is included
+                })
+                .ToListAsync();
+
+            return minimalEmployees;
+        }
     }
 
 }

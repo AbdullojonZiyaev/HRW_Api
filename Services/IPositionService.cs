@@ -20,6 +20,7 @@
         Task<PositionViewDto> UpdateAsync(PositionUpdateDto update);
 
         Task<PositionViewDto> DeleteAsync(int id);
+        Task<List<MinimalEmployeeViewDto>> GetMinimalEmployeesByPositionId(int positionId);
     }
 
 }

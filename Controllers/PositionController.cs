@@ -2,6 +2,7 @@
 using HRM_Project.DTOs.Request;
 using HRM_Project.DTOs.Response;
 using HRM_Project.Services;
+using HRM_Project.Services.Implementations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,5 +54,7 @@ namespace HRM_Project.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id) => Ok(await _positionService.DeleteAsync(id));
+        [HttpGet("MinimalEmployees/{positionId}")]
+        public async Task<IActionResult> GetMinimalEmployees(int positionId) => Ok(await _positionService.GetMinimalEmployeesByPositionId(positionId));
     }
 }
